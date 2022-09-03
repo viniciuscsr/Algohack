@@ -3,7 +3,8 @@
 # dependencies
 frontend/node_modules
 server/node_modules
-/node_modules
+node_modules
+frontend/node_modules
 
 # testing
 frontend/coverage
