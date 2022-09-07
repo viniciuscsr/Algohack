@@ -15,20 +15,31 @@ html {
 }
 
 main {
-  background: #f5f5f5;
+  background: #eef0f2;
   min-height: 80vh;
 }
 
 h1 {
+  color: #2596be;
   font-size: 1.8 rem;
   padding: 1rem 0;
 }
 
 h2 {
+  color: #2596be;
   font-size: 1.4 rem;
   padding: 0.5 rem 0;
 }
 
 h3 {
-  padding: 1rem 0;
+  color: #2596be;
+  padding: 0.3rem 0;
 }
+
+/* color scheme */
+/* primary color */
+/* --onyx: #2596be; */
+/* secondary colors */
+/* --green-ryb: #76b84b;
+--cultured: #eef0f2;
+--black-coffee: #433a3f; */

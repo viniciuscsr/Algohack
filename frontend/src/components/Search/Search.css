@@ -1,7 +1,7 @@
 .search__container {
   position: relative;
   min-height: 500px;
-  background-image: linear-gradient(to right, #1a9fdf, #76b84b);
+  background-image: linear-gradient(to right, #2596be, #76b84b);
 }
 
 .search__content-container {
@@ -9,6 +9,11 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.results__summary-list {
+  display: inline;
+  margin-left: 5px;
 }
 
 .search__h2 {
