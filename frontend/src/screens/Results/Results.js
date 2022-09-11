@@ -114,6 +114,5 @@ function Results() {
 export default Results;
 
 // TODO: figure out why loading component isnt working
-// TODO: add listing URL to query string
 // TODO: add navbar
 // TODO: add how to improve rankings section

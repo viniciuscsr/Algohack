@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import './Header.css';
 
 const Header = () => {
   const [url, setUrl] = useState('');
@@ -26,22 +27,34 @@ const Header = () => {
   };
 
   return (
-    <div className='results__nav mb-4'>
-      <input
-        type='text'
-        onChange={(e) => {
-          setUrl(e.target.value);
-        }}
-        onKeyDown={(e) => submitOnEnter(e)}
-      />
-      <button
-        className=''
-        type='submit'
-        onClick={(e) => {
-          submitUrl(e);
-        }}>
-        Submit
-      </button>
+    <div className='header__container mb-4'>
+      <h1 style={{ display: 'inline' }}>
+        <span className='d-none'>SETool</span>
+        <Link to='/'>
+          <img
+            className='header__logo'
+            src='/images/placeholderLogo.png'
+            alt='nav logo'
+          />
+        </Link>
+      </h1>
+      <span className='header__search-form'>
+        <input
+          type='text'
+          onChange={(e) => {
+            setUrl(e.target.value);
+          }}
+          onKeyDown={(e) => submitOnEnter(e)}
+        />
+        <button
+          className=''
+          type='submit'
+          onClick={(e) => {
+            submitUrl(e);
+          }}>
+          Submit
+        </button>
+      </span>
     </div>
   );
 };

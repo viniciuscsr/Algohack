@@ -25,8 +25,15 @@ export default function Search() {
 
   const submitUrl = async (e) => {
     e.preventDefault();
-    if (isValid) {
-      navigate('/results', { state: { url: url } });
+
+    const urlToString = {
+      url: url,
+    };
+
+    const result = '?' + new URLSearchParams(urlToString).toString();
+
+    if (isValid && url.trim()) {
+      navigate(`/results${result}`, { state: { url: url } });
     } else {
       //throw an error
       setShowErrorMessage(true);

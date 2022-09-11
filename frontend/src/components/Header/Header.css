@@ -1,0 +1,14 @@
+.header__container {
+  position: relative;
+  background-color: white;
+  height: 40px;
+}
+
+.header__search-form {
+  position: absolute;
+  left: 200px;
+}
+
+.header__logo {
+  height: 30px;
+}
