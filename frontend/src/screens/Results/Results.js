@@ -1,19 +1,17 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Loader } from '../../Loader';
+import { useLocation } from 'react-router-dom';
+import Header from '../../components/Header/Header';
+import Loader from '../../components/Loader';
 import './Results.css';
-import GreenCheck from '../../../icons/GreenCheck';
-import RedXCircle from '../../../icons/RedXCircle';
+import GreenCheck from '../../icons/GreenCheck';
+import RedXCircle from '../../icons/RedXCircle';
 
 function Results() {
   const [isLoading, setIsLoading] = useState(false);
   const [metrics, setMetrics] = useState([]);
 
   const location = useLocation();
-  const [url, setUrl] = useState('');
-
-  const navigate = useNavigate();
 
   const dashboardSections = [
     { title: 'Reviews', value: 0.23 },
@@ -38,7 +36,6 @@ function Results() {
     try {
       setIsLoading(true);
       async function fetchData() {
-        console.log('fetch');
         const { data } = await axios.post('/api/airbnb', location.state);
         setMetrics(data);
       }
@@ -48,7 +45,7 @@ function Results() {
     } finally {
       setIsLoading(false);
     }
-  }, [location, url]);
+  }, [location]);
 
   const renderDashboardCards = () => {
     return dashboardSections.map(({ title, value }) => {
@@ -98,42 +95,13 @@ function Results() {
     );
   };
 
-  const renderNav = () => {
-    const submitUrl = (e) => {
-      e.preventDefault();
-      if (url.trim()) {
-        navigate('/results', { state: { url: url } });
-      }
-    };
-
-    return (
-      <div className='results__nav mb-4'>
-        <input
-          type='text'
-          onChange={(e) => {
-            setUrl(e.target.value);
-          }}
-        />
-        <button
-          className=''
-          type='submit'
-          onClick={(e) => {
-            submitUrl(e);
-          }}>
-          Submit
-        </button>
-      </div>
-    );
-  };
-
   return (
     <>
       <div>
         {isLoading && <Loader />}
         {metrics && <div>{metrics.submittedUrl}</div>}
       </div>
-      {/* header */}
-      {renderNav()}
+      <Header />
       <div className='container'>
         {/* body */}
         <div className='row results__summary m-2 py-2'>{renderSummary()}</div>
