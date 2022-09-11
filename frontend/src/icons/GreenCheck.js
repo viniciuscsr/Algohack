@@ -11,7 +11,7 @@ const GreenCheck = () => {
       width='15px'
       height='15px'
       viewBox='0 0 64 64'
-      enable-background='new 0 0 64 64'>
+      enableBackground='new 0 0 64 64'>
       <g>
         <g id='XMLID_30_'>
           <g>

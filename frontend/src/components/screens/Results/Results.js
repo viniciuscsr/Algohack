@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Loader } from '../../Loader';
 import './Results.css';
 import GreenCheck from '../../../icons/GreenCheck';
@@ -11,6 +11,9 @@ function Results() {
   const [metrics, setMetrics] = useState([]);
 
   const location = useLocation();
+  const [url, setUrl] = useState('');
+
+  const navigate = useNavigate();
 
   const dashboardSections = [
     { title: 'Reviews', value: 0.23 },
@@ -35,6 +38,7 @@ function Results() {
     try {
       setIsLoading(true);
       async function fetchData() {
+        console.log('fetch');
         const { data } = await axios.post('/api/airbnb', location.state);
         setMetrics(data);
       }
@@ -44,7 +48,7 @@ function Results() {
     } finally {
       setIsLoading(false);
     }
-  }, [location]);
+  }, [location, url]);
 
   const renderDashboardCards = () => {
     return dashboardSections.map(({ title, value }) => {
@@ -66,7 +70,7 @@ function Results() {
   const renderSummary = () => {
     return (
       <>
-        <div className='col col-12 col-lg-4'>
+        <div className='col col-12 col-lg-4 text-center'>
           <h2>Score</h2>
           <p className='results__percentage mx-5'>57</p>
         </div>
@@ -94,14 +98,43 @@ function Results() {
     );
   };
 
+  const renderNav = () => {
+    const submitUrl = (e) => {
+      e.preventDefault();
+      if (url.trim()) {
+        navigate('/results', { state: { url: url } });
+      }
+    };
+
+    return (
+      <div className='results__nav mb-4'>
+        <input
+          type='text'
+          onChange={(e) => {
+            setUrl(e.target.value);
+          }}
+        />
+        <button
+          className=''
+          type='submit'
+          onClick={(e) => {
+            submitUrl(e);
+          }}>
+          Submit
+        </button>
+      </div>
+    );
+  };
+
   return (
     <>
       <div>
         {isLoading && <Loader />}
         {metrics && <div>{metrics.submittedUrl}</div>}
       </div>
+      {/* header */}
+      {renderNav()}
       <div className='container'>
-        {/* header */}
         {/* body */}
         <div className='row results__summary m-2 py-2'>{renderSummary()}</div>
         <div className='row'>{renderDashboardCards()}</div>
@@ -114,3 +147,5 @@ export default Results;
 
 // TODO: figure out why loading component isnt working
 // TODO: add listing URL to query string
+// TODO: add navbar
+// TODO: add how to improve rankings section
