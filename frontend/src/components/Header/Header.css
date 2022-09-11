@@ -1,14 +1,37 @@
 .header__container {
   position: relative;
   background-color: white;
-  height: 40px;
+  height: 45px;
+}
+
+.header__container-mobile {
+  position: relative;
+  background-color: white;
+  text-align: center;
 }
 
 .header__search-form {
   position: absolute;
-  left: 200px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.header__search-form-mobile {
+  position: relative;
 }
 
 .header__logo {
-  height: 30px;
+  height: 35px;
+  position: absolute;
+  top: 50%;
+  transform: translate(5%, -50%);
+}
+
+.header__logo-mobile {
+  height: 35px;
+}
+
+.header__button {
+  margin-left: 8px;
 }

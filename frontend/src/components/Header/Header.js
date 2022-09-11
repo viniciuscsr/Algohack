@@ -27,35 +27,69 @@ const Header = () => {
   };
 
   return (
-    <div className='header__container mb-4'>
-      <h1 style={{ display: 'inline' }}>
-        <span className='d-none'>SETool</span>
-        <Link to='/'>
-          <img
-            className='header__logo'
-            src='/images/placeholderLogo.png'
-            alt='nav logo'
+    <>
+      {/* desktop */}
+      <div className='header__container mb-4 d-none d-sm-block'>
+        <h1 style={{ display: 'inline' }}>
+          <span className='d-none'>SETool</span>
+          <Link to='/'>
+            <img
+              className='header__logo'
+              src='/images/placeholderLogo.png'
+              alt='nav logo'
+            />
+          </Link>
+        </h1>
+        <span className='header__search-form'>
+          <input
+            type='text'
+            onChange={(e) => {
+              setUrl(e.target.value);
+            }}
+            onKeyDown={(e) => submitOnEnter(e)}
           />
-        </Link>
-      </h1>
-      <span className='header__search-form'>
-        <input
-          type='text'
-          onChange={(e) => {
-            setUrl(e.target.value);
-          }}
-          onKeyDown={(e) => submitOnEnter(e)}
-        />
-        <button
-          className=''
-          type='submit'
-          onClick={(e) => {
-            submitUrl(e);
-          }}>
-          Submit
-        </button>
-      </span>
-    </div>
+          <button
+            className='btn btn-primary btn-sm header__button'
+            type='submit'
+            onClick={(e) => {
+              submitUrl(e);
+            }}>
+            Submit
+          </button>
+        </span>
+      </div>
+      {/* mobile */}
+      <div className='header__container-mobile mb-4 pb-3 d-block d-sm-none'>
+        <h1>
+          <span className='d-none'>SETool</span>
+          <Link to='/'>
+            <img
+              className='header__logo-mobile'
+              src='/images/placeholderLogo.png'
+              alt='nav logo'
+            />
+          </Link>
+        </h1>
+        <div className='header__search-form-mobile'>
+          <input
+            type='text'
+            onChange={(e) => {
+              setUrl(e.target.value);
+            }}
+            onKeyDown={(e) => submitOnEnter(e)}
+            placeholder='Paste your AirBnb listing URL here'
+          />
+          <button
+            className='btn btn-primary btn-sm header__button'
+            type='submit'
+            onClick={(e) => {
+              submitUrl(e);
+            }}>
+            Submit
+          </button>
+        </div>
+      </div>
+    </>
   );
 };
 
