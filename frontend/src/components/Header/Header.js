@@ -29,7 +29,7 @@ const Header = () => {
   return (
     <>
       {/* desktop */}
-      <div className='header__container mb-4 d-none d-sm-block'>
+      <div className='header__container d-none d-sm-block'>
         <h1 style={{ display: 'inline' }}>
           <span className='d-none'>SETool</span>
           <Link to='/'>
@@ -59,7 +59,7 @@ const Header = () => {
         </span>
       </div>
       {/* mobile */}
-      <div className='header__container-mobile mb-4 pb-3 d-block d-sm-none'>
+      <div className='header__container-mobile pb-3 d-block d-sm-none'>
         <h1>
           <span className='d-none'>SETool</span>
           <Link to='/'>

@@ -6,6 +6,7 @@ import Loader from '../../components/Loader';
 import './Results.css';
 import GreenCheck from '../../icons/GreenCheck';
 import RedXCircle from '../../icons/RedXCircle';
+import LoadingOverlay from 'react-loading-overlay';
 
 function Results() {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,18 +34,18 @@ function Results() {
   };
 
   useEffect(() => {
-    try {
-      setIsLoading(true);
-      async function fetchData() {
+    async function fetchData() {
+      try {
+        setIsLoading(true);
         const { data } = await axios.post('/api/airbnb', location.state);
         setMetrics(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
       }
-      fetchData();
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
     }
+    fetchData();
   }, [location]);
 
   const renderDashboardCards = () => {
@@ -97,16 +98,25 @@ function Results() {
 
   return (
     <>
-      <div>
-        {isLoading && <Loader />}
-        {metrics && <div>{metrics.submittedUrl}</div>}
-      </div>
       <Header />
-      <div className='container'>
-        {/* body */}
-        <div className='row results__summary m-2 py-2'>{renderSummary()}</div>
-        <div className='row'>{renderDashboardCards()}</div>
-      </div>
+      <LoadingOverlay
+        className='results__loading-overlay'
+        active={isLoading}
+        spinner
+        text='Loading...'>
+        {metrics && (
+          <>
+            <div>{metrics.submittedUrl}</div>
+            <div className='container pt-4'>
+              {/* body */}
+              <div className='row results__summary my-1 py-2'>
+                {renderSummary()}
+              </div>
+              <div className='row'>{renderDashboardCards()}</div>
+            </div>
+          </>
+        )}
+      </LoadingOverlay>
     </>
   );
 }
@@ -114,5 +124,4 @@ function Results() {
 export default Results;
 
 // TODO: figure out why loading component isnt working
-// TODO: add navbar
 // TODO: add how to improve rankings section
