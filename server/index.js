@@ -8,7 +8,10 @@ const { JSDOM } = jsdom;
 const sample = require('./sample');
 const axios = require('axios');
 const webScrapingApiClient = require('webscrapingapi');
-const { getElementByText } = require('./utilis/parsingMethods');
+const {
+  getElementByText,
+  getElementByAttributeValue,
+} = require('./utilis/parsingMethods');
 
 const airBnbListing = 'https://www.airbnb.com/rooms/661558087126699190';
 
@@ -75,33 +78,29 @@ app.get('/web-scraping-api', (req, res) => {
     );
     if (response.success) {
       const dom = new JSDOM(response.response.data);
-      const elements = dom.window.document.querySelectorAll('li');
-      let listingData = [];
+      let listingData = {};
 
       // response rate
-
-      // const getElementByText = (text, nodeList) => {
-      //   //convert node list
-      //   const arr = Array.from(nodeList);
-      //   const foundElement = arr.find((el) => {
-      //     return el.textContent
-      //       .toLowerCase()
-      //       .trim()
-      //       .includes(text.toLowerCase());
-      //   });
-
-      //   //return HTML element object.
-      //   return foundElement;
-      // };
-
-      console.log(getElementByText('response rate', elements).textContent);
+      const liElements = dom.window.document.querySelectorAll('li');
+      const responseText = getElementByText('Response rate', liElements)
+        .textContent;
+      const responseRate = responseText.split('Response rate: ')[1];
+      listingData.responseRate = responseRate;
 
       // description
+      const divElements = dom.window.document.querySelectorAll('div');
+      const arr = Array.from(divElements);
+
+      // has show more button
+      // or
+      // has description attribuite
+
       // amenities
+
       // number of review
       // reviews ratings
 
-      res.send(Array.from(elements));
+      res.send(listingData);
     } else {
       console.log(response.error);
     }
@@ -116,13 +115,39 @@ app.get('/web-scraping-api', (req, res) => {
 
 app.get('/dom-practice', (req, res) => {
   const dom = new JSDOM(sample);
-  const elements = dom.window.document.querySelectorAll('a');
-  console.log(elements.length);
-  // elements.forEach((element) => {
-  //   console.log(element.textContent);
+  let listingData = {};
+
+  // response rate
+  const liElements = dom.window.document.querySelectorAll('li');
+  const responseText = getElementByText('Response rate', liElements)
+    .textContent;
+  const responseRate = responseText.split('Response rate: ')[1];
+  listingData.responseRate = responseRate;
+
+  // description
+  const divElements = dom.window.document.querySelectorAll('div');
+  // const arr = Array.from(divElements);
+  // const descriptionElement = arr.forEach((el) => {
+  //   el.getAttributeNames().forEach((attrName) => {
+  //     if (
+  //       el.getAttribute(attrName).toLocaleLowerCase().includes('description')
+  //     ) {
+  //     }
+  //   });
   // });
 
-  res.send(typeof elements);
+  console.log(getElementByAttributeValue(divElements, 'description').outerHTML);
+
+  // has show more button
+  // or
+  // has description attribuite
+
+  // amenities
+
+  // number of review
+  // reviews ratings
+
+  res.send(listingData);
 });
 
 // -----------------------------------------------------------

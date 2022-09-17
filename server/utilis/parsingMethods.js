@@ -9,4 +9,20 @@ const getElementByText = (text, nodeList) => {
   return foundElement;
 };
 
-module.exports = { getElementByText };
+const getElementByAttributeValue = (nodeList, attributeValue) => {
+  const arr = Array.from(nodeList);
+  let descriptionElement;
+  arr.forEach((el) => {
+    el.getAttributeNames().forEach((attrName) => {
+      if (
+        el.getAttribute(attrName).toLocaleLowerCase().includes(attributeValue)
+      ) {
+        descriptionElement = el;
+        return;
+      }
+    });
+  });
+  return descriptionElement;
+};
+
+module.exports = { getElementByText, getElementByAttributeValue };
