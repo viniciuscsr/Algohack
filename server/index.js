@@ -7,6 +7,14 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const sample = require('./sample');
 const axios = require('axios');
+const webScrapingApiClient = require('webscrapingapi');
+const { getElementByText } = require('./utilis/parsingMethods');
+
+const airBnbListing = 'https://www.airbnb.com/rooms/661558087126699190';
+
+// -----------------------------------------------------------
+// request
+// -----------------------------------------------------------
 
 // request('https://news.ycombinator.com/news', (error, response, body) => {
 //   if (error) {
@@ -19,9 +27,6 @@ const axios = require('axios');
 // });
 
 app.use(express.json());
-app.get('/', (req, res) => {
-  res.send('Hello world');
-});
 
 app.post('/api/airbnb', (req, res) => {
   setTimeout(() => {
@@ -33,38 +38,102 @@ app.post('/api/airbnb', (req, res) => {
 });
 
 // -----------------------------------------------------------
+// Web Scraping API
+// -----------------------------------------------------------
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
-var username = 'lum-customer-hl_2b98090e-zone-unblocker';
-var password = 'vewkyo262311';
-var port1 = 22225;
-var session_id = (1000000 * Math.random()) | 0;
-var options = {
-  auth: {
-    username: username + '-session-' + session_id,
-    password,
-  },
-  host: 'zproxy.lum-superproxy.io',
-  port1,
-  rejectUnauthorized: false,
-};
+app.get('/web-scraping-api', (req, res) => {
+  const client = new webScrapingApiClient('SKst8lyPWXZbBeTKyRu7F0rTslbpY1e9');
 
-axios.get('https://www.airbnb.com/rooms/661558087126699190', options).then(
-  function (data) {
-    const dom = new JSDOM(data.data);
-    const elements = dom.window.document.querySelectorAll('li');
-    console.log(elements.length);
-    elements.forEach((element) => {
-      console.log(element.textContent);
-    });
-  },
-  function (err) {
-    console.error(err);
+  async function exampleUsage() {
+    let response = await client.get(
+      airBnbListing,
+      {
+        // API Parameters
+        // Set to 0 (off, default) or 1 (on) depending on whether or not to render JavaScript on the target web page. JavaScript rendering is done by using a browser.
+        render_js: 1,
+        // Set datacenter (default) or residential depending on whether proxy type you want to use for your scraping request. Please note that a single residential proxy API request is counted as 25 API requests.
+        proxy_type: 'datacenter',
+        // Specify the 2-letter code of the country you would like to use as a proxy geolocation for your scraping API request. Supported countries differ by proxy type, please refer to the Proxy Locations section for details.
+        country: 'us',
+        // Set depending on whether or not to use the same proxy address to your request.
+        session: 1,
+        // Specify the maximum timeout in milliseconds you would like to use for your scraping API request. In order to force a timeout, you can specify a number such as 1000. This will abort the request after 1000ms and return whatever HTML response was obtained until this point in time.
+        timeout: 10000,
+        // Set desktop (default) or mobile or tablet, depending on whether the device type you want to your for your scraping request.
+        device: 'desktop',
+        // Specify the option you would like to us as conditional for your scraping API request. Can only be used when the parameter render_js=1 is activated.
+        wait_until: 'domcontentloaded',
+        // Some websites may use javascript frameworks that may require a few extra seconds to load their content. This parameters specifies the time in miliseconds to wait for the website. Recommended values are in the interval 5000-10000.
+        wait_for: 10000,
+      },
+      {
+        // API Headers
+        authorization: 'bearer test',
+        // Specify custom cookies to be passed to the request.
+        cookie: 'test_cookie=abc; cookie_2=def',
+      }
+    );
+    if (response.success) {
+      const dom = new JSDOM(response.response.data);
+      const elements = dom.window.document.querySelectorAll('li');
+      let listingData = [];
+
+      // response rate
+
+      // const getElementByText = (text, nodeList) => {
+      //   //convert node list
+      //   const arr = Array.from(nodeList);
+      //   const foundElement = arr.find((el) => {
+      //     return el.textContent
+      //       .toLowerCase()
+      //       .trim()
+      //       .includes(text.toLowerCase());
+      //   });
+
+      //   //return HTML element object.
+      //   return foundElement;
+      // };
+
+      console.log(getElementByText('response rate', elements).textContent);
+
+      // description
+      // amenities
+      // number of review
+      // reviews ratings
+
+      res.send(Array.from(elements));
+    } else {
+      console.log(response.error);
+    }
   }
-);
+
+  exampleUsage();
+});
+
+// -----------------------------------------------------------
+// DOM practice
+// -----------------------------------------------------------
+
+app.get('/dom-practice', (req, res) => {
+  const dom = new JSDOM(sample);
+  const elements = dom.window.document.querySelectorAll('a');
+  console.log(elements.length);
+  // elements.forEach((element) => {
+  //   console.log(element.textContent);
+  // });
+
+  res.send(typeof elements);
+});
+
+// -----------------------------------------------------------
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
 
-//
+// data needed
+// - response rate
+// - description
+// - amenities
+// - number of review
+// - reviews ratings

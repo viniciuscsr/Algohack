@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from '../../components/Header/Header';
-import Loader from '../../components/Loader';
 import './Results.css';
 import GreenCheck from '../../icons/GreenCheck';
 import RedXCircle from '../../icons/RedXCircle';
@@ -123,5 +122,4 @@ function Results() {
 
 export default Results;
 
-// TODO: figure out why loading component isnt working
 // TODO: add how to improve rankings section
