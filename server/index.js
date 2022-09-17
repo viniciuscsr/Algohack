@@ -126,15 +126,6 @@ app.get('/dom-practice', (req, res) => {
 
   // description
   const divElements = dom.window.document.querySelectorAll('div');
-  // const arr = Array.from(divElements);
-  // const descriptionElement = arr.forEach((el) => {
-  //   el.getAttributeNames().forEach((attrName) => {
-  //     if (
-  //       el.getAttribute(attrName).toLocaleLowerCase().includes('description')
-  //     ) {
-  //     }
-  //   });
-  // });
 
   console.log(getElementByAttributeValue(divElements, 'description').outerHTML);
 
