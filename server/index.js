@@ -1,13 +1,11 @@
 const express = require('express');
 const app = express();
 const port = 5000;
-const request = require('request');
-const fs = require('fs');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const sample = require('./sample');
-const axios = require('axios');
 const webScrapingApiClient = require('webscrapingapi');
+const dotenv = require('dotenv');
 const {
   getElementByText,
   getElementByAttributeValue,
@@ -15,21 +13,8 @@ const {
 
 const airBnbListing = 'https://www.airbnb.com/rooms/661558087126699190';
 
-// -----------------------------------------------------------
-// request
-// -----------------------------------------------------------
-
-// request('https://news.ycombinator.com/news', (error, response, body) => {
-//   if (error) {
-//     console.log('Error: ' + error);
-//   }
-//   console.log('Status code: ' + response.statusCode);
-
-//   const dom = new JSDOM(response.body);
-//   console.log(dom.window.document.querySelector('div').textContent);
-// });
-
 app.use(express.json());
+dotenv.config();
 
 app.post('/api/airbnb', (req, res) => {
   setTimeout(() => {
@@ -45,7 +30,7 @@ app.post('/api/airbnb', (req, res) => {
 // -----------------------------------------------------------
 
 app.get('/web-scraping-api', (req, res) => {
-  const client = new webScrapingApiClient('SKst8lyPWXZbBeTKyRu7F0rTslbpY1e9');
+  const client = new webScrapingApiClient(process.env.WEB_SCRAPING_KEY);
 
   async function exampleUsage() {
     let response = await client.get(
@@ -78,18 +63,21 @@ app.get('/web-scraping-api', (req, res) => {
     );
     if (response.success) {
       const dom = new JSDOM(response.response.data);
-      let listingData = {};
+      const liElements = dom.window.document.querySelectorAll('li');
+      const divElements = dom.window.document.querySelectorAll('div');
+      const spanElements = dom.window.document.querySelectorAll('span');
+      const sectionElements = dom.window.document.querySelectorAll('section');
 
       // response rate
-      const liElements = dom.window.document.querySelectorAll('li');
       const responseText = getElementByText('Response rate', liElements)
         .textContent;
       const responseRate = responseText.split('Response rate: ')[1];
-      listingData.responseRate = responseRate;
 
       // description
-      const divElements = dom.window.document.querySelectorAll('div');
-      const arr = Array.from(divElements);
+      const descriptionText = getElementByAttributeValue(
+        divElements,
+        'description'
+      ).textContent;
 
       // has show more button
       // or
@@ -97,8 +85,21 @@ app.get('/web-scraping-api', (req, res) => {
 
       // amenities
 
-      // number of review
-      // reviews ratings
+      // Reviews
+      const reviewText = getElementByText('reviews', spanElements).textContent;
+      const reviewNumber = parseInt(
+        reviewText.split(' ·')[1].split('reviews')[0]
+      );
+      const reviewRating = parseFloat(reviewText.split(' ·')[0]);
+
+      const listingData = {
+        responseRate,
+        descriptionText,
+        reviews: {
+          reviewNumber,
+          reviewRating,
+        },
+      };
 
       res.send(listingData);
     } else {
@@ -115,19 +116,20 @@ app.get('/web-scraping-api', (req, res) => {
 
 app.get('/dom-practice', (req, res) => {
   const dom = new JSDOM(sample);
-  let listingData = {};
+
+  const liElements = dom.window.document.querySelectorAll('li');
+  const divElements = dom.window.document.querySelectorAll('div');
+  const spanElements = dom.window.document.querySelectorAll('span');
+  const sectionElements = dom.window.document.querySelectorAll('section');
 
   // response rate
-  const liElements = dom.window.document.querySelectorAll('li');
   const responseText = getElementByText('Response rate', liElements)
     .textContent;
   const responseRate = responseText.split('Response rate: ')[1];
-  listingData.responseRate = responseRate;
 
   // description
-  const divElements = dom.window.document.querySelectorAll('div');
-
-  console.log(getElementByAttributeValue(divElements, 'description').outerHTML);
+  const descriptionText = getElementByAttributeValue(divElements, 'description')
+    .textContent;
 
   // has show more button
   // or
@@ -135,10 +137,21 @@ app.get('/dom-practice', (req, res) => {
 
   // amenities
 
-  // number of review
-  // reviews ratings
+  // Reviews
+  const reviewText = getElementByText('reviews', spanElements).textContent;
+  const reviewNumber = parseInt(reviewText.split(' ·')[1].split('reviews')[0]);
+  const reviewRating = parseFloat(reviewText.split(' ·')[0]);
 
-  res.send(listingData);
+  const listingData = {
+    responseRate,
+    descriptionText,
+    reviews: {
+      reviewNumber,
+      reviewRating,
+    },
+  };
+
+  res.send(sectionElements.textContent);
 });
 
 // -----------------------------------------------------------
@@ -146,10 +159,3 @@ app.get('/dom-practice', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
-
-// data needed
-// - response rate
-// - description
-// - amenities
-// - number of review
-// - reviews ratings
