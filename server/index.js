@@ -8,6 +8,7 @@ const webScrapingApiClient = require('webscrapingapi');
 const dotenv = require('dotenv');
 const {
   getElementByText,
+  getElementByExactText,
   getElementByAttributeValue,
 } = require('./utilis/parsingMethods');
 
@@ -120,7 +121,6 @@ app.get('/dom-practice', (req, res) => {
   const liElements = dom.window.document.querySelectorAll('li');
   const divElements = dom.window.document.querySelectorAll('div');
   const spanElements = dom.window.document.querySelectorAll('span');
-  const sectionElements = dom.window.document.querySelectorAll('section');
 
   // response rate
   const responseText = getElementByText('Response rate', liElements)
@@ -135,12 +135,51 @@ app.get('/dom-practice', (req, res) => {
   // or
   // has description attribuite
 
-  // amenities
+  // Amenities
 
   // Reviews
   const reviewText = getElementByText('reviews', spanElements).textContent;
   const reviewNumber = parseInt(reviewText.split(' ·')[1].split('reviews')[0]);
   const reviewRating = parseFloat(reviewText.split(' ·')[0]);
+
+  //select all divs in a section that has an h2 with 'reviews' as textcontent
+
+  // get reviews H2
+  const h2Elements = dom.window.document.querySelectorAll('h2');
+  const reviewsH2 = getElementByText('reviews', h2Elements);
+
+  // find the right section
+  const sectionElements = dom.window.document.querySelectorAll('section');
+  const sectionArr = Array.from(sectionElements);
+  const sectionIndex = sectionArr.findIndex((section) =>
+    section.textContent.includes(reviewsH2.textContent)
+  );
+
+  // get all divs from reviews section
+  const reviewDivs = sectionArr[sectionIndex].querySelectorAll('div');
+
+  const reviewFeatures = [
+    'Cleanliness',
+    'Accuracy',
+    'Communication',
+    'Location',
+    'Check-in',
+    'Value',
+  ];
+
+  const divArr = Array.from(reviewDivs);
+  const reviewFeatureScore = {};
+
+  reviewFeatures.forEach((feature) => {
+    const reviewFeatureDiv = getElementByExactText(feature, divElements)
+      .outerHTML;
+    const index =
+      divArr.findIndex((el) => el.outerHTML === reviewFeatureDiv) + 1;
+
+    const featureRating = parseFloat(divArr[index].textContent);
+
+    reviewFeatureScore[feature.toLowerCase()] = featureRating;
+  });
 
   const listingData = {
     responseRate,
@@ -148,10 +187,11 @@ app.get('/dom-practice', (req, res) => {
     reviews: {
       reviewNumber,
       reviewRating,
+      ...reviewFeatureScore,
     },
   };
 
-  res.send(sectionElements.textContent);
+  res.send(listingData);
 });
 
 // -----------------------------------------------------------

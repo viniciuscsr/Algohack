@@ -9,6 +9,16 @@ const getElementByText = (text, nodeList) => {
   return foundElement;
 };
 
+const getElementByExactText = (text, nodeList) => {
+  //convert node list
+  const arr = Array.from(nodeList);
+  const foundElement = arr.find((el) => {
+    return el.textContent == text;
+  });
+  //return HTML element object.
+  return foundElement;
+};
+
 const getElementByAttributeValue = (nodeList, attributeValue) => {
   const arr = Array.from(nodeList);
   let descriptionElement;
@@ -25,4 +35,8 @@ const getElementByAttributeValue = (nodeList, attributeValue) => {
   return descriptionElement;
 };
 
-module.exports = { getElementByText, getElementByAttributeValue };
+module.exports = {
+  getElementByText,
+  getElementByExactText,
+  getElementByAttributeValue,
+};
