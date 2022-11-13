@@ -13,6 +13,7 @@ const {
   getElementByAttributeValue,
 } = require('./utilis/parsingMethods');
 const { getPage } = require('./utilis/webScrapingApi');
+const reviewFeatures = require('./constants/reviewFeatures');
 
 const airBnbListing = 'https://www.airbnb.com/rooms/661558087126699190';
 
@@ -131,15 +132,6 @@ app.get('/web-scraping-api', (req, res) => {
 
       // get all divs from reviews section
       const reviewDivs = sectionArr[sectionIndex].querySelectorAll('div');
-
-      const reviewFeatures = [
-        'Cleanliness',
-        'Accuracy',
-        'Communication',
-        'Location',
-        'Check-in',
-        'Value',
-      ];
 
       const divArr = Array.from(reviewDivs);
       const reviewFeatureScore = {};
