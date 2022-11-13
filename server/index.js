@@ -3,7 +3,8 @@ const app = express();
 const port = 5000;
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
-const sample = require('./sample');
+const sample = require('./samples/sample');
+const amenitiesSample = require('./samples/amenitiesSample');
 const webScrapingApiClient = require('webscrapingapi');
 const dotenv = require('dotenv');
 const {
@@ -68,6 +69,46 @@ app.get('/web-scraping-api', (req, res) => {
 
       // Amenities
 
+      const amenitiesResponse = await getPage(
+        client,
+        `${airBnbListing}/amenities`
+      );
+
+      // const amenitiesResponse = {
+      //   success: true,
+      // };
+      let amenitiesList = [];
+      if (amenitiesResponse.success) {
+        const dom = new JSDOM(amenitiesResponse.response.data);
+
+        // const dom = new JSDOM(amenitiesSample);
+
+        // get amenities H2
+        const h2Elements = dom.window.document.querySelectorAll('h2');
+        const amenitiesH2 = getElementByText(
+          'What this place offers',
+          h2Elements
+        );
+
+        // find the right section that has a amenities H2
+        const sectionElements = dom.window.document.querySelectorAll('section');
+        const sectionArr = Array.from(sectionElements);
+        const sectionIndex = sectionArr.findIndex(
+          (section) =>
+            section.textContent.includes(amenitiesH2.textContent) &&
+            !section.textContent.includes('Show all')
+        );
+
+        const amenitiesDivs = sectionArr[sectionIndex].querySelectorAll('div');
+        amenitiesDivs.forEach((div) => {
+          if (div.className === '_vzrbjl') {
+            amenitiesList.push(div.textContent);
+          }
+        });
+
+        // TODO: create a hard coded array of strings with amenities and compare to content on the page to get final amenity list
+      }
+
       // Reviews
       const reviewText = getElementByText('reviews', spanElements).textContent;
       const reviewNumber = parseInt(
@@ -81,7 +122,7 @@ app.get('/web-scraping-api', (req, res) => {
       const h2Elements = dom.window.document.querySelectorAll('h2');
       const reviewsH2 = getElementByText('reviews', h2Elements);
 
-      // find the right section
+      // find the right section that has a review H2
       const sectionElements = dom.window.document.querySelectorAll('section');
       const sectionArr = Array.from(sectionElements);
       const sectionIndex = sectionArr.findIndex((section) =>
@@ -122,6 +163,7 @@ app.get('/web-scraping-api', (req, res) => {
           reviewRating,
           ...reviewFeatureScore,
         },
+        amenities: [...amenitiesList],
       };
 
       res.send(listingData);
