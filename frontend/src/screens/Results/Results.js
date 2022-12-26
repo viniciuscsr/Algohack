@@ -13,12 +13,6 @@ function Results() {
 
   const location = useLocation();
 
-  const dashboardSections = [
-    { title: 'Reviews', value: 0.23 },
-    { title: 'Occupancy Rate', value: 0.76 },
-    { title: 'Response Rate', value: 0.93 },
-  ];
-
   const summaryData = {
     dos: [
       'Great use of keywords',
@@ -36,7 +30,8 @@ function Results() {
     async function fetchData() {
       try {
         setIsLoading(true);
-        const { data } = await axios.post('/api/airbnb', location.state);
+        const { data } = await axios.post('/api/results', location.state);
+        console.log(data);
         setMetrics(data);
       } catch (error) {
         console.error(error);
@@ -48,16 +43,30 @@ function Results() {
   }, [location]);
 
   const renderDashboardCards = () => {
-    return dashboardSections.map(({ title, value }) => {
-      const percentage = value * 100;
+    const dashboardSections = [
+      {
+        title: 'Reviews',
+        value: metrics.reviews.reviewRating,
+        isPercentage: false,
+      },
+      { title: 'Occupancy Rate', value: 0.76, isPercentage: true },
+      {
+        title: 'Response Rate',
+        value: metrics.responseRate,
+        isPercentage: true,
+      },
+    ];
+
+    return dashboardSections.map(({ title, value, isPercentage }, i) => {
+      const finalValue = isPercentage ? `${value * 100}%` : value;
       return (
-        <div className='col col-12 col-lg-4'>
+        <div key={i} className='col col-12 col-lg-4'>
           <div className='results__dashboard-card my-2 p-3'>
             <h3>{title}</h3>
-            <p className='results__percentage mx-5'>{percentage}%</p>
+            <p className='results__percentage mx-5'>{finalValue}</p>
             <div
               className='results__pie animate'
-              style={{ '--p': percentage, '--b': '10px' }}></div>
+              style={{ '--p': finalValue, '--b': '10px' }}></div>
           </div>
         </div>
       );
@@ -72,9 +81,9 @@ function Results() {
           <p className='results__percentage mx-5'>57</p>
         </div>
         <div className='col col-12 col-lg-4 my-1'>
-          {summaryData.dos.map((item) => {
+          {summaryData.dos.map((item, i) => {
             return (
-              <div>
+              <div key={i}>
                 <GreenCheck />
                 <p className='results__summary-list'>{item}</p>
               </div>
@@ -82,9 +91,9 @@ function Results() {
           })}
         </div>
         <div className='col col-12 col-lg-4 my-1'>
-          {summaryData.dont.map((item) => {
+          {summaryData.dont.map((item, i) => {
             return (
-              <div>
+              <div key={i}>
                 <RedXCircle />
                 <p className='results__summary-list'>{item}</p>
               </div>
@@ -105,7 +114,6 @@ function Results() {
         text='Loading...'>
         {metrics && (
           <>
-            <div>{metrics.submittedUrl}</div>
             <div className='container pt-4'>
               {/* body */}
               <div className='row results__summary my-1 py-2'>

@@ -22,8 +22,6 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-const airBnbListing = 'https://www.airbnb.com/rooms/661558087126699190';
-
 app.post('/api/airbnb', (req, res) => {
   setTimeout(() => {
     res.send({
@@ -37,7 +35,8 @@ app.post('/api/airbnb', (req, res) => {
 // Web Scraping API
 // -----------------------------------------------------------
 
-app.get('/web-scraping-api', async (req, res) => {
+app.post('/api/results', async (req, res) => {
+  const airBnbListing = req.body.url;
   const client = new webScrapingApiClient(process.env.WEB_SCRAPING_KEY);
 
   const response = await getPage(client, airBnbListing);
@@ -59,7 +58,8 @@ app.get('/web-scraping-api', async (req, res) => {
     // response rate
     const responseText = getElementByText('Response rate', liElements)
       .textContent;
-    const responseRate = responseText.split('Response rate: ')[1];
+    const responseRate =
+      parseInt(responseText.split('Response rate: ')[1].split('%')[0]) / 100;
 
     // description
     const descriptionText = getElementByAttributeValue(
