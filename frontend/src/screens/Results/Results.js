@@ -3,35 +3,19 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import './Results.css';
-import GreenCheck from '../../icons/GreenCheck';
-import RedXCircle from '../../icons/RedXCircle';
 import LoadingOverlay from 'react-loading-overlay';
 
 function Results() {
   const [isLoading, setIsLoading] = useState(false);
-  const [metrics, setMetrics] = useState([]);
+  const [metrics, setMetrics] = useState(null);
 
   const location = useLocation();
-
-  const summaryData = {
-    dos: [
-      'Great use of keywords',
-      'Comprehensive description',
-      'Complete list of amenities',
-    ],
-    dont: [
-      'Low response rate',
-      'Low number of reviews',
-      'Low number of photos',
-    ],
-  };
 
   useEffect(() => {
     async function fetchData() {
       try {
         setIsLoading(true);
         const { data } = await axios.post('/api/results', location.state);
-        console.log(data);
         setMetrics(data);
       } catch (error) {
         console.error(error);
@@ -45,62 +29,97 @@ function Results() {
   const renderDashboardCards = () => {
     const dashboardSections = [
       {
-        title: 'Reviews',
-        value: metrics.reviews.reviewRating,
-        isPercentage: false,
-      },
-      { title: 'Occupancy Rate', value: 0.76, isPercentage: true },
-      {
         title: 'Response Rate',
         value: metrics.responseRate,
         isPercentage: true,
+        details: {
+          good: {
+            range: [0.76, 1],
+            description:
+              'Great work. Continue to respond to inquiries and booking requests as quickly as possible to keep your response rate as close to 100% as possible. Airbnb recommends responding within 24 hours to increase the likelihood of a booking.',
+          },
+          average: {
+            range: [0.41, 0.75],
+            description:
+              'Your response rate is average. You can improve by doing...',
+          },
+          poor: {
+            range: [0, 0.4],
+            description: 'Your response rate is Poor.',
+          },
+        },
       },
+      // {
+      //   title: 'Review Rating',
+      //   value: metrics.reviews.reviewRating,
+      //   isPercentage: false,
+      // },
+      // {
+      //   title: 'Review Number',
+      //   value: metrics.reviews.reviewNumber,
+      //   isPercentage: false,
+      // },
+      // {
+      //   title: 'Cleanliness Review',
+      //   value: metrics.reviews.cleanliness,
+      //   isPercentage: false,
+      // },
+      // {
+      //   title: 'Accuracy Reviw',
+      //   value: metrics.reviews.accuracy,
+      //   isPercentage: false,
+      // },
+      // {
+      //   title: 'Communication Review',
+      //   value: metrics.reviews.communication,
+      //   isPercentage: false,
+      // },
+      // {
+      //   title: 'Location Review',
+      //   value: metrics.reviews.location,
+      //   isPercentage: false,
+      // },
+      // {
+      //   title: 'Check-in Review',
+      //   value: metrics.reviews['check-in'],
+      //   isPercentage: false,
+      // },
+      // {
+      //   title: 'Value Review',
+      //   value: metrics.reviews.value,
+      //   isPercentage: false,
+      // },
     ];
 
-    return dashboardSections.map(({ title, value, isPercentage }, i) => {
-      const finalValue = isPercentage ? `${value * 100}%` : value;
-      return (
-        <div key={i} className='col col-12 col-lg-4'>
-          <div className='results__dashboard-card my-2 p-3'>
-            <h3>{title}</h3>
-            <p className='results__percentage mx-5'>{finalValue}</p>
-            <div
-              className='results__pie animate'
-              style={{ '--p': finalValue, '--b': '10px' }}></div>
-          </div>
-        </div>
-      );
-    });
-  };
+    return dashboardSections.map(
+      ({ title, value, isPercentage, details }, i) => {
+        const finalValue = isPercentage ? `${Math.round(value * 100)}%` : value;
 
-  const renderSummary = () => {
-    return (
-      <>
-        <div className='col col-12 col-lg-4 text-center'>
-          <h2>Score</h2>
-          <p className='results__percentage mx-5'>57</p>
-        </div>
-        <div className='col col-12 col-lg-4 my-1'>
-          {summaryData.dos.map((item, i) => {
-            return (
-              <div key={i}>
-                <GreenCheck />
-                <p className='results__summary-list'>{item}</p>
+        let desc;
+        let cat;
+        Object.keys(details).forEach((category) => {
+          const { range, description } = details[category];
+          if (range[0] <= value && value <= range[1]) {
+            desc = description;
+            cat = category;
+          }
+        });
+
+        return (
+          <div key={i} className='col col-12 col-lg-12'>
+            <div className='results__dashboard-card my-2 p-3'>
+              <h3>{title}</h3>
+              <div className='results__details-container'>
+                <p>{desc}</p>
+                <p
+                  className={`results__value__${cat} results__percentage mx-5`}>
+                  {finalValue}
+                </p>
               </div>
-            );
-          })}
-        </div>
-        <div className='col col-12 col-lg-4 my-1'>
-          {summaryData.dont.map((item, i) => {
-            return (
-              <div key={i}>
-                <RedXCircle />
-                <p className='results__summary-list'>{item}</p>
-              </div>
-            );
-          })}
-        </div>
-      </>
+            </div>
+          </div>
+        );
+      }
     );
   };
 
@@ -116,9 +135,6 @@ function Results() {
           <>
             <div className='container pt-4'>
               {/* body */}
-              <div className='row results__summary my-1 py-2'>
-                {renderSummary()}
-              </div>
               <div className='row'>{renderDashboardCards()}</div>
             </div>
           </>
