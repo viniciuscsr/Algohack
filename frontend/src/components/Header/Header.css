@@ -1,13 +1,20 @@
 .header__container {
-  position: relative;
+  position: absolute;
   background-color: white;
   height: 45px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 10;
 }
 
 .header__container-mobile {
-  position: relative;
+  position: absolute;
   background-color: white;
   text-align: center;
+  width: 100%;
+  top: 0;
+  left: 0;
 }
 
 .header__search-form {
@@ -34,4 +41,9 @@
 
 .header__button {
   margin-left: 8px;
+  background-color: #198754;
+}
+
+.header__input {
+  width: 300px;
 }

@@ -130,14 +130,16 @@ function Results() {
         className='results__loading-overlay'
         active={isLoading}
         spinner
-        text='Loading...'>
-        {metrics && (
+        text='Loading... It might take a few seconds.'>
+        {metrics ? (
           <>
-            <div className='container pt-4'>
+            <div className='results__container container'>
               {/* body */}
               <div className='row'>{renderDashboardCards()}</div>
             </div>
           </>
+        ) : (
+          <div className='results__container container' />
         )}
       </LoadingOverlay>
     </>

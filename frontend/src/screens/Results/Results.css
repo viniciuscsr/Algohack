@@ -28,6 +28,17 @@
   align-items: center;
 }
 
+.results__container {
+  min-height: 100vh;
+  padding-top: 60px;
+}
+
+@media (max-width: 575px) {
+  .results__container {
+    padding-top: 170px;
+  }
+}
+
 .results__value__good {
   color: green;
 }

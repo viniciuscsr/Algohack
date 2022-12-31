@@ -43,10 +43,12 @@ const Header = () => {
         <span className='header__search-form'>
           <input
             type='text'
+            className='header__input'
             onChange={(e) => {
               setUrl(e.target.value);
             }}
             onKeyDown={(e) => submitOnEnter(e)}
+            placeholder='Paste your AirBnb listing URL here'
           />
           <button
             className='btn btn-primary btn-sm header__button'
@@ -71,14 +73,16 @@ const Header = () => {
           </Link>
         </h1>
         <div className='header__search-form-mobile'>
-          <input
-            type='text'
-            onChange={(e) => {
-              setUrl(e.target.value);
-            }}
-            onKeyDown={(e) => submitOnEnter(e)}
-            placeholder='Paste your AirBnb listing URL here'
-          />
+          <div className='header__input'>
+            <input
+              type='text'
+              onChange={(e) => {
+                setUrl(e.target.value);
+              }}
+              onKeyDown={(e) => submitOnEnter(e)}
+              placeholder='Paste your AirBnb listing URL here'
+            />
+          </div>
           <button
             className='btn btn-primary btn-sm header__button'
             type='submit'
