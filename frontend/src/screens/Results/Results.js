@@ -1,13 +1,15 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import './Results.css';
 import LoadingOverlay from 'react-loading-overlay';
+import { Modal, Button } from 'react-bootstrap';
 
 function Results() {
   const [isLoading, setIsLoading] = useState(false);
   const [metrics, setMetrics] = useState(null);
+  const [error, setError] = useState(false);
 
   const location = useLocation();
 
@@ -19,6 +21,7 @@ function Results() {
         setMetrics(data);
       } catch (error) {
         console.error(error);
+        setError(true);
       } finally {
         setIsLoading(false);
       }
@@ -123,6 +126,10 @@ function Results() {
     );
   };
 
+  const handleClose = () => {
+    setError(false);
+  };
+
   return (
     <>
       <Header />
@@ -141,6 +148,20 @@ function Results() {
         ) : (
           <div className='results__container container' />
         )}
+        <>
+          <Modal centered show={error} onHide={handleClose}>
+            <Modal.Body bsPrefix='modal-body text-center'>
+              Oops.. Something went wrong. Please try again.
+            </Modal.Body>
+            <Modal.Footer bsPrefix='modal-footer text-center d-flex justify-content-center'>
+              <Link to='/'>
+                <Button variant='primary' onClick={handleClose}>
+                  Go to Homepage
+                </Button>
+              </Link>
+            </Modal.Footer>
+          </Modal>
+        </>
       </LoadingOverlay>
     </>
   );
