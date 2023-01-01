@@ -1,10 +1,12 @@
+@import '../../custom.scss';
+
 .results__summary {
   min-height: 120px;
-  background-color: white;
+  background-color: $white;
   border-radius: 10px;
 }
 .results__dashboard-card {
-  background-color: white;
+  background-color: $white;
   position: relative;
   border-radius: 10px;
 }
@@ -44,11 +46,11 @@
 }
 
 .results__value__good {
-  color: green;
+  color: $success;
 }
 .results__value__average {
-  color: grey;
+  color: $body-color;
 }
 .results__value__poor {
-  color: red;
+  color: $danger;
 }

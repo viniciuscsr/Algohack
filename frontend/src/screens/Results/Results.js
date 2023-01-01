@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import Header from '../../components/Header/Header';
-import './Results.css';
+import './Results.scss';
 import LoadingOverlay from 'react-loading-overlay';
 import { Modal, Button } from 'react-bootstrap';
 

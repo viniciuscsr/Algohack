@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import './Header.css';
+import './Header.scss';
 
 const Header = () => {
   const [url, setUrl] = useState('');

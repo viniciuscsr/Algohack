@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './index.css';
+// Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.min.css';
+// Bootstrap Bundle JS
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+import './custom.scss';
 import App from './App';
 import Results from './screens/Results/Results';
 import reportWebVitals from './reportWebVitals';

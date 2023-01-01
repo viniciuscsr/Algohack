@@ -1,6 +1,6 @@
-import './HomeCard.css';
+import './HomeCard.scss';
 
-export default function HomeCard({ src, heading, text, buttonCta }) {
+export default function HomeCard({ heading, text, buttonCta }) {
   return (
     <div className='col text-center p-5'>
       {/* <img src={src} /> */}

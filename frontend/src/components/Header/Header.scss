@@ -1,6 +1,8 @@
+@import '../../custom.scss';
+
 .header__container {
   position: absolute;
-  background-color: white;
+  background-color: $white;
   height: 45px;
   width: 100%;
   top: 0;
@@ -10,7 +12,7 @@
 
 .header__container-mobile {
   position: absolute;
-  background-color: white;
+  background-color: $white;
   text-align: center;
   width: 100%;
   top: 0;
@@ -41,7 +43,6 @@
 
 .header__button {
   margin-left: 8px;
-  background-color: #198754;
 }
 
 .header__input {

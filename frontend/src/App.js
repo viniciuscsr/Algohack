@@ -1,7 +1,7 @@
 import { HOME_COMPONENTS } from './data/input';
 import Search from './components/Search/Search';
 import HomeCard from './components/HomeCard/HomeCard';
-import './App.css';
+import './App.scss';
 
 function App() {
   const renderCards = () => {

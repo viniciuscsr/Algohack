@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Search.css';
+import './Search.scss';
 
 export default function Search() {
   const [url, setUrl] = useState('');
