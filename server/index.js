@@ -56,6 +56,13 @@ app.post('/api/results', async (req, res) => {
     const spanElements = dom.window.document.querySelectorAll('span');
 
     // -------------------------------------------------------------------------------------------
+    // title
+    // -------------------------------------------------------------------------------------------
+
+    const h1Element = dom.window.document.querySelector('h1');
+    const title = h1Element.textContent;
+
+    // -------------------------------------------------------------------------------------------
     // response rate
     // -------------------------------------------------------------------------------------------
 
@@ -158,6 +165,7 @@ app.post('/api/results', async (req, res) => {
     });
 
     const listingData = {
+      title,
       responseRate,
       // descriptionText,
       reviews: {

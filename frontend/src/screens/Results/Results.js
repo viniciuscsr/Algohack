@@ -37,18 +37,19 @@ function Results() {
         isPercentage: true,
         details: {
           good: {
-            range: [0.76, 1],
+            range: [0.81, 1],
             description:
-              'Great work. Continue to respond to inquiries and booking requests as quickly as possible to keep your response rate as close to 100% as possible. Airbnb recommends responding within 24 hours to increase the likelihood of a booking.',
+              'Great work. Continue to respond to inquiries and booking requests as quickly as possible to keep your response rate close to 100%. Airbnb recommends responding within 24 hours to increase response rate and the likelihood of a booking.',
           },
           average: {
-            range: [0.41, 0.75],
+            range: [0.41, 0.8],
             description:
-              'Your response rate is average. You can improve by doing...',
+              'Make sure you turned on notifications your Airbnb app. Responding to guests within 24 hours will raise your response rate and bookings. You can also improve communication by using the quick replies and scheduled messages features.',
           },
           poor: {
             range: [0, 0.4],
-            description: 'Your response rate is Poor.',
+            description:
+              "Consider downloading the Airbnb app and responding in 24 hours or less to increase your resonse rate. The app allow users to choose between email, text and/or in-app notification for new messages. Keep in mind that AirBnb uses the percentage of new guest messages you've answered within 24 hours in the past 30 days to calculate your rate",
           },
         },
       },
@@ -146,7 +147,7 @@ function Results() {
             <div className='results__dashboard-card my-2 p-3'>
               <div className='results__details-container'>
                 <div>
-                  <h3>{title}</h3>
+                  <h2>{title}</h2>
                   <p>{desc}</p>
                 </div>
                 <div className={`results__value__${cat}`}>
@@ -179,6 +180,7 @@ function Results() {
           <>
             <div className='results__container container'>
               {/* body */}
+              <h1>{metrics.title}</h1>
               <div className='row'>{renderDashboardCards()}</div>
             </div>
           </>
