@@ -10,7 +10,6 @@ export default function Search() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // TODO: expand input validation
     if (url.includes('airbnb.com/')) {
       setIsValid(true);
       setShowErrorMessage(false);
@@ -35,18 +34,16 @@ export default function Search() {
     if (isValid && url.trim()) {
       navigate(`/results${result}`, { state: { url: url } });
     } else {
-      //throw an error
       setShowErrorMessage(true);
     }
   };
 
   return (
     <>
-      {/* mobile */}
       <div className=''>
         <div className='search__container text-center'>
           <div className='search__content-container'>
-            <h2 className='search__h2'>Paste your AirBnB listing URL here</h2>
+            <h2 className='search__h2'>Your AirBnB listing URL goes here</h2>
             <input
               className={`search__input m-4 ${
                 showErrorMessage ? 'search__input__invalid' : ''
@@ -67,7 +64,7 @@ export default function Search() {
               Submit
             </button>
             {showErrorMessage && (
-              <div className='search__invalid-input'>Invalid Input</div>
+              <div className='search__invalid-input'>Invalid URL</div>
             )}
           </div>
         </div>

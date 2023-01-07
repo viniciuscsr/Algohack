@@ -52,16 +52,49 @@ function Results() {
           },
         },
       },
-      // {
-      //   title: 'Review Rating',
-      //   value: metrics.reviews.reviewRating,
-      //   isPercentage: false,
-      // },
-      // {
-      //   title: 'Review Number',
-      //   value: metrics.reviews.reviewNumber,
-      //   isPercentage: false,
-      // },
+      {
+        title: 'Review Rating',
+        value: metrics.reviews.reviewRating,
+        isPercentage: false,
+        details: {
+          good: {
+            range: [4.71, 5],
+            description:
+              "You're on track to be a superhost. Your rating is among the top hostings on airbnb. To get even closer to 5 stars be sure to address past review feedback. That way you can make adjustments to your property or set your guests expectations with descriptions and photos that best represent the listing.",
+          },
+          average: {
+            range: [4, 4.7],
+            description:
+              "You're on the right track. At this point, you're most likely doing most things right but better communication and a personalized experience might bring your ratings closer to 5 stars. Create FAQs and canned responses so you can promptly answer inquiries. Leave a good first impression by welcoming guests with local treats, souvenirs or a personalized welcome note.",
+          },
+          poor: {
+            range: [0, 3.99],
+            description:
+              "Any rating below 4 is considered low by Airbnb's high standards. Focus on the three most important criteria for guests: communication, expectations and unforeseen events. It's recommended to respond to new inquiries within 24 hours but responding in a few hours will help you to get better reviews. Make sure your photos and description represent your property well. Broken expectations are a big reason for low ratings. Lastly, if an incident happens handle them at the earliest while having a cordial and a 'guest is always right' attitude.",
+          },
+        },
+      },
+      {
+        title: 'Review Number',
+        value: metrics.reviews.reviewNumber,
+        isPercentage: false,
+        details: {
+          good: {
+            range: [20, 100000],
+            description: `${metrics.reviews.reviewNumber} is a great number of reviews. Most top ranking listings have at least 20 reviews. Focus on getting more 5 star reviews so you can compeate with the top performing properties`,
+          },
+          average: {
+            range: [2, 20],
+            description:
+              "Keep getting more reviews. Properties with at least 20 reviews are more likely to rank high on search results and are more trustworthy for guests. Don't forget to ask your most satisfied guests for reviews. You can also leave them a review",
+          },
+          poor: {
+            range: [0, 2],
+            description:
+              "AirBnb won't display any review on your profile yet. You need at least 3 reviews for them to show up on your profile but user will see reviews from other properties you manage. Encourage your guests to leave reviews by sending them a follow-up message, leaving in your property instructions on how to leave reviews and leaving them guest reviews",
+          },
+        },
+      },
       // {
       //   title: 'Cleanliness Review',
       //   value: metrics.reviews.cleanliness,
@@ -111,13 +144,17 @@ function Results() {
         return (
           <div key={i} className='col col-12 col-lg-12'>
             <div className='results__dashboard-card my-2 p-3'>
-              <h3>{title}</h3>
               <div className='results__details-container'>
-                <p>{desc}</p>
-                <p
-                  className={`results__value__${cat} results__percentage mx-5`}>
-                  {finalValue}
-                </p>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{desc}</p>
+                </div>
+                <div className={`results__value__${cat}`}>
+                  <p className='text-center text-capitalize font-weight-bold'>
+                    {cat}
+                  </p>
+                  <p className='results__percentage mx-5'>{finalValue}</p>
+                </div>
               </div>
             </div>
           </div>
