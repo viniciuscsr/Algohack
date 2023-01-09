@@ -66,7 +66,7 @@ function Results() {
           average: {
             range: [4, 4.7],
             description:
-              "You're on the right track. At this point, you're most likely doing most things right but better communication and a personalized experience might bring your ratings closer to 5 stars. Create FAQs and canned responses so you can promptly answer inquiries. Leave a good first impression by welcoming guests with local treats, souvenirs or a personalized welcome note.",
+              "You're on the right track. At this point, you're most likely doing things right but better communication and a personalized experience might bring your ratings closer to 5 stars. Create FAQs and canned responses so you can promptly answer inquiries. Leave a good first impression by welcoming guests with local treats, souvenirs or/and a personalized welcome note.",
           },
           poor: {
             range: [0, 3.99],
@@ -92,7 +92,7 @@ function Results() {
           poor: {
             range: [0, 2],
             description:
-              "AirBnb won't display any review on your profile yet. You need at least 3 reviews for them to show up on your profile but user will see reviews from other properties you manage. Encourage your guests to leave reviews by sending them a follow-up message, leaving in your property instructions on how to leave reviews and leaving them guest reviews",
+              'You need at least 3 reviews for them to show up on your profile but user can see reviews from other properties you manage. Encourage your guests to leave reviews by sending them a follow-up messages and reviewing your guests.',
           },
         },
       },
@@ -130,36 +130,40 @@ function Results() {
 
     return dashboardSections.map(
       ({ title, value, isPercentage, details }, i) => {
-        const finalValue = isPercentage ? `${Math.round(value * 100)}%` : value;
+        if (typeof value != 'undefined') {
+          const finalValue = isPercentage
+            ? `${Math.round(value * 100)}%`
+            : value;
 
-        let desc;
-        let cat;
-        Object.keys(details).forEach((category) => {
-          const { range, description } = details[category];
-          if (range[0] <= value && value <= range[1]) {
-            desc = description;
-            cat = category;
-          }
-        });
+          let desc;
+          let cat;
+          Object.keys(details).forEach((category) => {
+            const { range, description } = details[category];
+            if (range[0] <= value && value <= range[1]) {
+              desc = description;
+              cat = category;
+            }
+          });
 
-        return (
-          <div key={i} className='col col-12 col-lg-12'>
-            <div className='results__dashboard-card my-2 p-3'>
-              <div className='results__details-container'>
-                <div>
-                  <h2>{title}</h2>
-                  <p>{desc}</p>
-                </div>
-                <div className={`results__value__${cat}`}>
-                  <p className='text-center text-capitalize font-weight-bold'>
-                    {cat}
-                  </p>
-                  <p className='results__percentage mx-5'>{finalValue}</p>
+          return (
+            <div key={i} className='col col-12 col-lg-12'>
+              <div className='results__dashboard-card my-2 p-3'>
+                <div className='results__details-container'>
+                  <div>
+                    <h2>{title}</h2>
+                    <p>{desc}</p>
+                  </div>
+                  <div className={`results__value__${cat}`}>
+                    <p className='text-center text-capitalize font-weight-bold'>
+                      {cat}
+                    </p>
+                    <p className='results__percentage mx-5'>{finalValue}</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        );
+          );
+        }
       }
     );
   };

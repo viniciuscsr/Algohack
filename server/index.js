@@ -67,7 +67,7 @@ app.post('/api/results', async (req, res) => {
     // -------------------------------------------------------------------------------------------
 
     const responseText = getElementByText('Response rate', liElements)
-      .textContent;
+      ?.textContent;
     const responseRate =
       parseInt(responseText.split('Response rate: ')[1].split('%')[0]) / 100;
 
@@ -128,51 +128,52 @@ app.post('/api/results', async (req, res) => {
     // Reviews
     // -------------------------------------------------------------------------------------------
 
+    let reviews = {};
+
     const reviewText = getElementByText('reviews', spanElements).textContent;
-    const reviewNumber = parseInt(
-      reviewText.split(' ·')[1].split('reviews')[0]
-    );
-    const reviewRating = parseFloat(reviewText.split(' ·')[0]);
+    // check if the listing has any reviews
+    reviews.reviewNumber = reviewText.includes('·')
+      ? parseInt(reviewText.split(' ·')[1].split('reviews')[0])
+      : 0;
 
-    //select all divs in a section that has an h2 with 'reviews' as textcontent
+    if (reviews.reviewNumber > 0) {
+      reviews.reviewRating = parseFloat(reviewText.split(' ·')[0]);
 
-    // get reviews H2
-    const h2Elements = dom.window.document.querySelectorAll('h2');
-    const reviewsH2 = getElementByText('reviews', h2Elements);
+      //select all divs in a section that have an h2 with 'reviews' as textcontent
 
-    // find the right section that has a review H2
-    const sectionElements = dom.window.document.querySelectorAll('section');
-    const sectionArr = Array.from(sectionElements);
-    const sectionIndex = sectionArr.findIndex((section) =>
-      section.textContent.includes(reviewsH2.textContent)
-    );
+      // get reviews H2
+      const h2Elements = dom.window.document.querySelectorAll('h2');
+      const reviewsH2 = getElementByText('reviews', h2Elements);
 
-    // get all divs from reviews section
-    const reviewDivs = sectionArr[sectionIndex].querySelectorAll('div');
+      // find the right section that has a review H2
+      const sectionElements = dom.window.document.querySelectorAll('section');
+      const sectionArr = Array.from(sectionElements);
+      const sectionIndex = sectionArr.findIndex((section) =>
+        section.textContent.includes(reviewsH2.textContent)
+      );
 
-    const divArr = Array.from(reviewDivs);
-    const reviewFeatureScore = {};
+      // get all divs from reviews section
+      const reviewDivs = sectionArr[sectionIndex].querySelectorAll('div');
 
-    reviewFeatures.forEach((feature) => {
-      const reviewFeatureDiv = getElementByExactText(feature, divElements)
-        .outerHTML;
-      const index =
-        divArr.findIndex((el) => el.outerHTML === reviewFeatureDiv) + 1;
+      const divArr = Array.from(reviewDivs);
 
-      const featureRating = parseFloat(divArr[index].textContent);
+      reviewFeatures.forEach((feature) => {
+        const reviewFeatureDiv = getElementByExactText(feature, divElements)
+          .outerHTML;
+        const index =
+          divArr.findIndex((el) => el.outerHTML === reviewFeatureDiv) + 1;
 
-      reviewFeatureScore[feature.toLowerCase()] = featureRating;
-    });
+        const featureRating = parseFloat(divArr[index].textContent);
+
+        reviews[feature.toLowerCase()] = featureRating;
+      });
+    }
 
     const listingData = {
       title,
       responseRate,
       // descriptionText,
-      reviews: {
-        reviewNumber,
-        reviewRating,
-        ...reviewFeatureScore,
-      },
+      reviews,
       // amenities: [...amenitiesList],
     };
 
