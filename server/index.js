@@ -179,6 +179,8 @@ app.post('/api/results', async (req, res) => {
 
     res.send(listingData);
   } else {
+    throw new Error(response.error);
+    res.send(response.error).status(500);
     console.log(response.error);
   }
 });

@@ -35,7 +35,7 @@ const Header = () => {
           <Link to='/'>
             <img
               className='header__logo'
-              src='/images/placeholderLogo.png'
+              src='/images/colorfull_algohack_logo_clear.png'
               alt='nav logo'
             />
           </Link>
@@ -67,7 +67,7 @@ const Header = () => {
           <Link to='/'>
             <img
               className='header__logo-mobile'
-              src='/images/placeholderLogo.png'
+              src='/images/colorfull_algohack_logo_clear.png'
               alt='nav logo'
             />
           </Link>

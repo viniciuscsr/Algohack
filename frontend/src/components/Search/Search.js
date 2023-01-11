@@ -43,13 +43,18 @@ export default function Search() {
       <div className=''>
         <div className='search__container text-center'>
           <div className='search__content-container'>
-            <h2 className='search__h2'>Your AirBnB listing URL goes here</h2>
+            <img
+              className='search__logo'
+              src='/images/algohack_logo_clear.png'
+              alt='alternative logo'
+            />
             <input
-              className={`search__input m-4 ${
+              className={`search__input mx-4 ${
                 showErrorMessage ? 'search__input__invalid' : ''
               }`}
               type='text'
               value={url}
+              placeholder='Your Airbnb URL goes here'
               onChange={(e) => {
                 setUrl(e.target.value);
                 setShowErrorMessage(false);
