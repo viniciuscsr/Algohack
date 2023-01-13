@@ -66,8 +66,10 @@ app.post('/api/results', async (req, res) => {
     // response rate
     // -------------------------------------------------------------------------------------------
 
-    const responseText = getElementByText('Response rate', liElements)
-      ?.textContent;
+    const responseText = getElementByText(
+      'Response rate',
+      liElements
+    )?.textContent;
     const responseRate =
       parseInt(responseText.split('Response rate: ')[1].split('%')[0]) / 100;
 
@@ -158,8 +160,10 @@ app.post('/api/results', async (req, res) => {
       const divArr = Array.from(reviewDivs);
 
       reviewFeatures.forEach((feature) => {
-        const reviewFeatureDiv = getElementByExactText(feature, divElements)
-          .outerHTML;
+        const reviewFeatureDiv = getElementByExactText(
+          feature,
+          divElements
+        ).outerHTML;
         const index =
           divArr.findIndex((el) => el.outerHTML === reviewFeatureDiv) + 1;
 
@@ -179,9 +183,7 @@ app.post('/api/results', async (req, res) => {
 
     res.send(listingData);
   } else {
-    throw new Error(response.error);
-    res.send(response.error).status(500);
-    console.log(response.error);
+    res.status(500).send(response.error);
   }
 });
 
