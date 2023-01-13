@@ -18,7 +18,11 @@ function Results() {
       try {
         setIsLoading(true);
         const { data } = await axios.post('/api/results', location.state);
-        setMetrics(data);
+        if (data.message) {
+          throw new Error(data.message);
+        } else {
+          setMetrics(data);
+        }
       } catch (error) {
         console.error(error);
         setError(true);
