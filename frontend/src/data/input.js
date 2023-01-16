@@ -1,16 +1,14 @@
 export const HOME_COMPONENTS = [
   {
-    heading: 'Getting Started',
+    heading: 'Optimize your listing',
     icon: 'abc',
-    text:
-      'AppDynamics helps you to understand and optimize the performance of your business, from its software to infrastructure to business outcomes.',
+    text: 'Our Airbnb SEO recommendations help you make sure that your listing is optimized for maximum visibility, giving you an edge over other listings in the same market.',
     buttonCta: 'Get Started',
   },
   {
-    heading: 'Getting Started',
+    heading: 'Stay ahead of the competition',
     icon: 'abc',
-    text:
-      'AppDynamics helps you to understand and optimize the performance of your business, from its software to infrastructure to business outcomes.',
+    text: 'With our algorithm, you can stay ahead of the competition by making sure that your listing is always up-to-date with the latest trends and changes in the Airbnb market.',
     buttonCta: 'Get Started',
   },
 ];

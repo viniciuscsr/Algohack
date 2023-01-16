@@ -43,11 +43,14 @@ export default function Search() {
       <div className=''>
         <div className='search__container text-center'>
           <div className='search__content-container'>
-            <img
-              className='search__logo'
-              src='/images/algohack_logo_clear.png'
-              alt='alternative logo'
-            />
+            <h1 style={{ color: 'white' }}>
+              Rank higher on Airbnb with AlgoHack
+            </h1>
+            <p style={{ color: 'white' }}>
+              AlgoHack is the ultimate tool for Airbnb hosts. Our algorithm
+              helps you optimize your listing and get the best out of your
+              Airbnb business.
+            </p>
             <input
               className={`search__input mx-4 ${
                 showErrorMessage ? 'search__input__invalid' : ''

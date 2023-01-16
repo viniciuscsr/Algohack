@@ -1,12 +1,13 @@
 import { HOME_COMPONENTS } from './data/input';
 import Search from './components/Search/Search';
 import HomeCard from './components/HomeCard/HomeCard';
+import Header from './components/Header/Header';
 import './App.scss';
 
 function App() {
   const renderCards = () => {
     return (
-      <div className='container'>
+      <div className='container d-flex align-items-center'>
         <div className='row'>
           {HOME_COMPONENTS.map(({ heading, text, buttonCta }) => (
             <HomeCard heading={heading} text={text} buttonCta={buttonCta} />
@@ -18,6 +19,7 @@ function App() {
 
   return (
     <div className='App'>
+      <Header showSearchBar={false} />
       <Search />
       {renderCards()}
     </div>

@@ -100,11 +100,28 @@ function Results() {
           },
         },
       },
-      // {
-      //   title: 'Cleanliness Review',
-      //   value: metrics.reviews.cleanliness,
-      //   isPercentage: false,
-      // },
+      {
+        title: 'Cleanliness Review',
+        value: metrics.reviews.cleanliness,
+        isPercentage: false,
+        details: {
+          good: {
+            range: [4.75, 5],
+            description:
+              "You're on track to be a superhost. Your rating is among the top hostings on airbnb. To get even closer to 5 stars be sure to address past review feedback. That way you can make adjustments to your property or set your guests expectations with descriptions and photos that best represent the listing.",
+          },
+          average: {
+            range: [4, 4.74],
+            description:
+              "You're on the right track. At this point, you're most likely doing things right but better communication and a personalized experience might bring your ratings closer to 5 stars. Create FAQs and canned responses so you can promptly answer inquiries. Leave a good first impression by welcoming guests with local treats, souvenirs or/and a personalized welcome note.",
+          },
+          poor: {
+            range: [0, 3.99],
+            description:
+              "Any rating below 4 is considered low by Airbnb's high standards. Focus on the three most important criteria for guests: communication, expectations and unforeseen events. It's recommended to respond to new inquiries within 24 hours but responding in a few hours will help you to get better reviews. Make sure your photos and description represent your property well. Broken expectations are a big reason for low ratings. Lastly, if an incident happens handle them at the earliest while having a cordial and a 'guest is always right' attitude.",
+          },
+        },
+      },
       // {
       //   title: 'Accuracy Reviw',
       //   value: metrics.reviews.accuracy,
@@ -178,7 +195,7 @@ function Results() {
 
   return (
     <>
-      <Header />
+      <Header showSearchBar={true} />
       <LoadingOverlay
         className='results__loading-overlay'
         active={isLoading}

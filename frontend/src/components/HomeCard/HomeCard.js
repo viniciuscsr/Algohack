@@ -6,7 +6,7 @@ export default function HomeCard({ heading, text, buttonCta }) {
       {/* <img src={src} /> */}
       <h2>{heading}</h2>
       <p>{text}</p>
-      <button className='btn btn-success'>{buttonCta}</button>
+      {/* <button className='btn btn-success'>{buttonCta}</button> */}
     </div>
   );
 }
