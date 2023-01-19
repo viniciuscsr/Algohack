@@ -8,15 +8,19 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './custom.scss';
 import App from './App';
 import Results from './screens/Results/Results';
+import Blog from './screens/Blog/Blog';
 import reportWebVitals from './reportWebVitals';
+import Header from './components/Header/Header';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
+    <Header />
     <main>
       <Routes>
         <Route path='/' element={<App />} exact></Route>
         <Route path='results' element={<Results />} />
+        <Route path='blog' element={<Blog />} />
       </Routes>
     </main>
   </BrowserRouter>

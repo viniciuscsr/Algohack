@@ -19,7 +19,6 @@ function App() {
 
   return (
     <div className='App'>
-      <Header showSearchBar={false} />
       <Search />
       {renderCards()}
     </div>

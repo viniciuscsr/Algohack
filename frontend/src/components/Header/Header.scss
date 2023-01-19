@@ -1,23 +1,17 @@
 @import '../../custom.scss';
 
 .header__container {
-  position: absolute;
+  position: relative;
   background-color: $white;
   height: 45px;
   width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 10;
 }
 
 .header__container-mobile {
-  position: absolute;
+  position: relative;
   background-color: $white;
   text-align: center;
   width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1;
 }
 
 .header__search-form {
