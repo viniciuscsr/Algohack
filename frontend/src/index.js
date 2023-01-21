@@ -12,6 +12,7 @@ import Blog from './screens/Blog/Blog';
 import BlogPost from './screens/BlogPost/BlogPost';
 import reportWebVitals from './reportWebVitals';
 import Header from './components/Header/Header';
+import Author from './screens/Author/Author';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -23,6 +24,7 @@ root.render(
         <Route path='/results' element={<Results />} />
         <Route path='/blog/:slug' element={<BlogPost />} />
         <Route path='/blog' element={<Blog />} exact />
+        <Route path='/blog/author/:name' element={<Author />} />
       </Routes>
     </main>
   </BrowserRouter>

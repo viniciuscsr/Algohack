@@ -32,7 +32,7 @@ const Header = () => {
   return (
     <header className='header'>
       {/* desktop */}
-      <div className='header__container d-none d-sm-block'>
+      <div className='header__container'>
         <div style={{ display: 'inline' }}>
           <span className='d-none'>AlgoHack</span>
           <Link to='/'>
@@ -44,7 +44,7 @@ const Header = () => {
           </Link>
         </div>
         {showSearchBar && (
-          <span className='header__search-form'>
+          <span className='header__search-form d-none d-sm-block'>
             <input
               type='text'
               className='header__input'
@@ -64,41 +64,11 @@ const Header = () => {
             </button>
           </span>
         )}
-      </div>
-      {/* mobile */}
-      <div className='header__container-mobile py-3 d-block d-sm-none'>
-        <div>
-          <span className='d-none'>AlgoHack</span>
-          <Link to='/'>
-            <img
-              className='header__logo-mobile'
-              src='/images/colorfull_algohack_logo_clear.png'
-              alt='nav logo'
-            />
-          </Link>
-        </div>
-        {showSearchBar && (
-          <div className='header__search-form-mobile'>
-            <div className='header__input'>
-              <input
-                type='text'
-                onChange={(e) => {
-                  setUrl(e.target.value);
-                }}
-                onKeyDown={(e) => submitOnEnter(e)}
-                placeholder='Paste your AirBnb listing URL here'
-              />
-            </div>
-            <button
-              className='btn btn-primary btn-sm header__button'
-              type='submit'
-              onClick={(e) => {
-                submitUrl(e);
-              }}>
-              Submit
-            </button>
-          </div>
-        )}
+        <Link to='/blog'>
+          <a className='header__link' style={{ textDecoration: 'none' }}>
+            Blog
+          </a>
+        </Link>
       </div>
     </header>
   );

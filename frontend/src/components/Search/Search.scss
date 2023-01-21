@@ -2,17 +2,14 @@
 
 .search__container {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   min-height: 600px;
   background-image: linear-gradient(to right, #2596be, #76b84b);
-  position: relative;
   z-index: 2;
-}
-
-.search__content-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  padding: 0 5%;
+  color: $white;
 }
 
 .results__summary-list {
@@ -53,4 +50,15 @@
 .search__logo {
   width: 50%;
   margin: 40px;
+}
+
+.search__icon {
+  border: none !important;
+}
+.search__bar {
+  display: inline-flex;
+  align-items: center;
+  background-color: $white;
+  border-radius: 20px;
+  padding: 0 20px;
 }
