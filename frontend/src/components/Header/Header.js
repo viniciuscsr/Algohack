@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import './Header.scss';
 
-const Header = ({ showSearchBar }) => {
+const Header = () => {
   const [url, setUrl] = useState('');
 
   const navigate = useNavigate();
+
+  const { pathname } = useLocation();
+  const showSearchBar = pathname !== '/';
 
   const submitUrl = (e) => {
     const urlToString = {
@@ -27,7 +30,7 @@ const Header = ({ showSearchBar }) => {
   };
 
   return (
-    <>
+    <header className='header'>
       {/* desktop */}
       <div className='header__container d-none d-sm-block'>
         <div style={{ display: 'inline' }}>
@@ -97,7 +100,7 @@ const Header = ({ showSearchBar }) => {
           </div>
         )}
       </div>
-    </>
+    </header>
   );
 };
 

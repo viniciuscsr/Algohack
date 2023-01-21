@@ -4,6 +4,8 @@
   position: relative;
   min-height: 600px;
   background-image: linear-gradient(to right, #2596be, #76b84b);
+  position: relative;
+  z-index: 2;
 }
 
 .search__content-container {

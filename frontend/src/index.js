@@ -9,6 +9,7 @@ import './custom.scss';
 import App from './App';
 import Results from './screens/Results/Results';
 import Blog from './screens/Blog/Blog';
+import BlogPost from './screens/BlogPost/BlogPost';
 import reportWebVitals from './reportWebVitals';
 import Header from './components/Header/Header';
 
@@ -19,8 +20,9 @@ root.render(
     <main>
       <Routes>
         <Route path='/' element={<App />} exact></Route>
-        <Route path='results' element={<Results />} />
-        <Route path='blog' element={<Blog />} />
+        <Route path='/results' element={<Results />} />
+        <Route path='/blog/:slug' element={<BlogPost />} />
+        <Route path='/blog' element={<Blog />} exact />
       </Routes>
     </main>
   </BrowserRouter>

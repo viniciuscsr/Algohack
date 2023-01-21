@@ -1,57 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { usePosts } from '../../custom-hooks/';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, INLINES } from '@contentful/rich-text-types';
 import './Blog.scss';
 
 const BlogPost = () => {
-  const [blogPosts, setBlogPosts] = useState(null);
-
-  const query = `
-  {
-  blogPostCollection{
-    items{
-     title
-      slug
-      description
-      body{
-        json
-      }
-      publishedDate
-      featuredImage{
-        url
-      }
-    }
-  }
-}
-  `;
-
-  useEffect(() => {
-    window
-      .fetch(
-        `https://graphql.contentful.com/content/v1/spaces/${process.env.REACT_APP_CONTENTFUL_SPACE_ID}/`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            // Authenticate the request
-            Authorization: `Bearer ${process.env.REACT_APP_CONTENTFUL_TOKEN}`,
-          },
-          // send the GraphQL query
-          body: JSON.stringify({ query }),
-        }
-      )
-      .then((response) => response.json())
-      .then(({ data, errors }) => {
-        if (errors) {
-          console.error(errors);
-        }
-
-        // rerender the entire component with new data
-        setBlogPosts(data.blogPostCollection.items);
-      });
-  }, []);
+  const [blogPosts, isLoading] = usePosts();
 
   return (
     <Col className='posts__container'>

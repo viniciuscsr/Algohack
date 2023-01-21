@@ -195,7 +195,6 @@ function Results() {
 
   return (
     <>
-      <Header showSearchBar={true} />
       <LoadingOverlay
         className='results__loading-overlay'
         active={isLoading}
