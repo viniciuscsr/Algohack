@@ -1,11 +1,15 @@
+@import '../../custom.scss';
+
 .post {
   position: relative;
-  background-color: #fff;
   min-height: calc(100vh - 45px);
 
   &__col {
-    max-width: 700px;
-    margin: auto;
+    max-width: 800px;
+    background-color: $white;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 20px;
   }
 
   &__intro {

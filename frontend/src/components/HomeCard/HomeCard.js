@@ -2,7 +2,7 @@ import './HomeCard.scss';
 
 export default function HomeCard({ heading, text, buttonCta }) {
   return (
-    <div className='col text-center p-5'>
+    <div className='col text-center p-5 homecard'>
       {/* <img src={src} /> */}
       <h2>{heading}</h2>
       <p>{text}</p>

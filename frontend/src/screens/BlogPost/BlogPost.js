@@ -13,7 +13,6 @@ const BlogPost = () => {
   const { pathname } = useLocation();
   const routeSlug = pathname.split('/').slice(-1)[0];
 
-  console.log(postToUse, isLoading);
   useEffect(() => {
     if (blogPosts) {
       setPostToUse(blogPosts.filter((post) => post.slug === routeSlug)[0]);
@@ -33,8 +32,14 @@ const BlogPost = () => {
                 <img
                   className='post__author__headshot'
                   src={postToUse.author.headshot.url}
+                  alt='author headshot'
                 />
-                <p className='post__author__name'>{postToUse.author.name}</p>
+                <Link
+                  to={`/blog/author/${postToUse.author.name
+                    .replace(/\s+/g, '-')
+                    .toLowerCase()}`}>
+                  <p className='post__author__name'>{postToUse.author.name}</p>
+                </Link>
               </div>
               <small className='post__intro__date'>
                 {new Date(postToUse.publishedDate).toDateString()}

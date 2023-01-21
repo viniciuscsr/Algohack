@@ -8,7 +8,7 @@ function App() {
   const renderCards = () => {
     return (
       <div className='container d-flex align-items-center'>
-        <div className='row'>
+        <div className='row mt-5'>
           {HOME_COMPONENTS.map(({ heading, text, buttonCta }) => (
             <HomeCard heading={heading} text={text} buttonCta={buttonCta} />
           ))}

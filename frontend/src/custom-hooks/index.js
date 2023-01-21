@@ -1,3 +1,4 @@
 import usePosts from './usePosts';
+import useAuthor from './useAuthor';
 
-export { usePosts };
+export { usePosts, useAuthor };
